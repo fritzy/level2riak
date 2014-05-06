@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+var levelup = require('levelup');
+var multilevel = require('multilevel');
+var net = require('net');
+var util = require('util');
+
+var argv = require('optimist')
+    .default({host: 'localhost', port: 8087, listen: 8091})
+    .usage('Usage: level2riak --host 127.0.0.1 --port 8087 --listen 8091 --bucket somebucket'
+        + '\n\nlevel2riak uses the riak protocol buffer and pb port (default: 8087)'
+        + '\nConnect with a multilevel client.')
+    .demand(['bucket'])
+    .alias('h', 'host')
+    .alias('p', 'port')
+    .alias('l', 'listen')
+    .alias('b', 'bucket')
+    .argv;
+
+var riakuri = util.format("riak://%s:%d/%s", argv.host, argv.port, argv.bucket);
+
+var db = levelup(
+    riakuri,
+    { db: require('riakdown'), valueEncoding: 'json'});
+
+console.log("Connected to", riakuri);
+console.log("Listening for multilevel connection on:", argv.listen);
+
+net.createServer(function (con) {
+    console.log("Recieved connection");
+    con.pipe(multilevel.server(db)).pipe(con);
+}).listen(argv.listen);

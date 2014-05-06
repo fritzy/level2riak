@@ -1,0 +1,24 @@
+{
+    "name": "level2riak",
+    "version": "0.0.1",
+    "description": "level2riak is a multilevel gateway to riak so that levelup tools and services can work with riak. It uses riakdown to do the heavy lifting.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Nathan Fritz",
+    "license": "MIT",
+    "dependencies": {
+        "riakdown": "^0.2.1",
+        "multilevel": "^6.0.0",
+        "optimist": "^0.6.1"
+    },
+    "keywords": ["level", "levelup", "riak", "key", "key-value"],
+    "homepage": "https://github.com/fritzy/level2riak",
+    "repository" :
+        {
+        "type" : "git",
+        "url" : "http://github.com/fritzy/level2git.git"
+    },
+    "bin": "./level2riak"
+}
